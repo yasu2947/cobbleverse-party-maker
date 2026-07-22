@@ -278,7 +278,7 @@
   gap: 4px;
 }
 
-/* 덱스 번호 — 이름 위 */
+/* 덱스 번호 — 이름 바로 위 */
 .card__dex-no {
   display: block;
   font-size: 10px;
@@ -286,7 +286,7 @@
   color: var(--text-muted);
   letter-spacing: 0.5px;
   line-height: 1;
-  margin-bottom: 2px;
+  margin-bottom: calc(-1 * var(--space-2) + 2px); /* 부모 gap 상쇄 → 이름에 바짝 */
 }
 
 /* 특성 영역 */
