@@ -150,15 +150,14 @@ img { display: block; max-width: 100%; }
 }
 
 
-/* ── 본문 4열 레이아웃 ── */
+/* ── 본문 3열 레이아웃 ── */
 .app-body {
   flex: 1;
   display: grid;
-  grid-template-columns: var(--sidebar-width) minmax(280px, 1fr) var(--matchup-width);
+  grid-template-columns: var(--sidebar-width) minmax(280px, 1fr) minmax(300px, var(--matchup-width));
   grid-template-rows: 1fr;
   overflow: auto;
   height: calc(100dvh - var(--topbar-height));
-  min-width: max-content;
 }
 
 .filter-sidebar {
@@ -229,7 +228,13 @@ img { display: block; max-width: 100%; }
 }
 
 /* ── 반응형 ── */
-@media (max-width: 900px) {
+@media (max-width: 1100px) {
+  .app-body {
+    grid-template-columns: var(--sidebar-width) minmax(240px, 1fr) minmax(240px, 360px);
+  }
+}
+
+@media (max-width: 800px) {
   .app-body {
     grid-template-columns: 1fr;
     grid-template-rows: auto 1fr auto;
