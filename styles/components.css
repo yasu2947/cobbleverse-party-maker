@@ -23,6 +23,8 @@
   gap: var(--space-3);
   cursor: pointer;
   min-height: 190px;
+  min-width: 0;
+  overflow-x: hidden;
   transition: border-color var(--transition-fast), box-shadow var(--transition-fast), transform var(--transition-fast);
 }
 .pokemon-card:hover {
@@ -480,8 +482,7 @@ body.biome-lang-en .card__acq-cond.biome-en  { display: inline; }
   font-size: var(--font-size-sm);
   color: var(--text-primary);
   line-height: 1.5;
-  word-break: keep-all;
-  overflow-wrap: break-word;
+  overflow-wrap: anywhere;
 }
 .card__acq-bottom {
   display: flex;
@@ -494,8 +495,7 @@ body.biome-lang-en .card__acq-cond.biome-en  { display: inline; }
 .card__acq-cond {
   font-size: var(--font-size-sm);
   color: var(--text-secondary);
-  word-break: keep-all;
-  overflow-wrap: break-word;
+  overflow-wrap: anywhere;
 }
 /* 카드 내 희귀도 뱃지 */
 .rarity-badge--xs {
