@@ -377,6 +377,7 @@ body.biome-lang-en .card__acq-cond.biome-en  { display: inline; }
   padding-left: var(--space-3);
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   gap: var(--space-1);
   justify-content: flex-start;
   padding-top: var(--space-2);
