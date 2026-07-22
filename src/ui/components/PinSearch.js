@@ -5,7 +5,6 @@
 
 import { getDataset } from '../../api/dataset.js';
 import { TYPE_MAP, TYPES } from '../../core/constants/types.js';
-import { pinPokemon } from '../../core/pinManager.js';
 import { dispatch, getState } from '../../state/store.js';
 
 /** 현재 모달이 열린 대상 슬롯 인덱스 */
@@ -96,8 +95,7 @@ function _selectByName(name) {
   if (_onSelect) {
     _onSelect(pokemon, _targetSlot);
   } else if (_targetSlot !== null) {
-    const result = pinPokemon(_targetSlot, pokemon);
-    if (!result.ok) { alert(result.reason); return; }
+    // + 버튼으로 열었을 때: 핀 없이 슬롯에 배치만
     const newParty = [...getState().party];
     newParty[_targetSlot] = pokemon;
     dispatch({ party: newParty });
