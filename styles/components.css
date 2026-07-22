@@ -377,8 +377,9 @@ body.biome-lang-en .card__acq-cond.biome-en  { display: inline; }
   padding-left: var(--space-3);
   display: flex;
   flex-direction: column;
-  gap: var(--space-2);
-  justify-content: center;
+  gap: var(--space-1);
+  justify-content: flex-start;
+  padding-top: var(--space-2);
 }
 
 /* ── 종족값: 합계 상단 + 3행 아래 균등 ── */
@@ -488,8 +489,7 @@ body.biome-lang-en .card__acq-cond.biome-en  { display: inline; }
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: var(--space-1);
-  margin-top: var(--space-1);
+  gap: 2px;
   min-width: 0;
   width: 100%;
 }
