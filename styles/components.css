@@ -265,12 +265,21 @@
   overflow: hidden;
 }
 .card__name {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-2);
+  line-height: 1.2;
+  min-width: 0;
+}
+.card__name-text {
   font-size: var(--font-size-lg);
   font-weight: 700;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  line-height: 1.2;
+  min-width: 0;
+  flex: 1;
 }
 .card__types {
   display: flex;
@@ -278,19 +287,14 @@
   gap: 4px;
 }
 
-/* 덱스 번호 — 스프라이트 하단 */
+/* 덱스 번호 — 이름 오른쪽 */
 .card__dex-no {
-  position: absolute;
-  bottom: 2px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 9px;
-  font-weight: 700;
-  color: oklch(100% 0 0 / 0.45);
-  letter-spacing: 0.5px;
-  z-index: 3;
-  pointer-events: none;
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  color: var(--text-muted);
+  letter-spacing: 0.3px;
   white-space: nowrap;
+  flex-shrink: 0;
 }
 
 /* 특성 영역 */

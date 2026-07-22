@@ -154,13 +154,12 @@ export function createPokemonCard(pokemon, { isPinned, slotIndex, onPin, onRemov
           ? `<span class="card__mega-badge">${pokemon.formType === 'mega-z' ? 'Z' : 'M'}</span>`
           : ''
         }
-        <span class="card__dex-no">${dexNo}</span>
       </div>
 
       <div class="card__info">
         <p class="card__name">
-          ${pokemon.displayName}
-          ${formNote ? `<span class="card__form-tag">${formNote}</span>` : ''}
+          <span class="card__name-text">${pokemon.displayName}${formNote ? ` <span class="card__form-tag">${formNote}</span>` : ''}</span>
+          <span class="card__dex-no">${dexNo}</span>
         </p>
         <div class="card__types" role="list" aria-label="타입">
           ${pokemon.types.map((t) => `

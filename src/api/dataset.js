@@ -32,7 +32,7 @@ let _dataset = null;
  * localStorage 캐시 키 — 데이터 구조가 바뀌면 버전 올릴 것.
  * 버전 변경 시 사용자 브라우저의 이전 캐시는 자동 무효화된다.
  */
-const CACHE_KEY = 'cobble_dataset_v3';
+const CACHE_KEY = 'cobble_dataset_v4';
 
 /** 지역명 → 세대 매핑 */
 const REGION_TO_GEN = {
@@ -170,7 +170,7 @@ function normalizeEntry(pokemon, species) {
   }
 
   return {
-    id:             pokemon.id,
+    id:             species.id,   // 전국도감 번호 (폼 ID 아님)
     name:           pokemon.name,
     displayName,
     types:          pokemon.types.map((t) => t.type.name),
