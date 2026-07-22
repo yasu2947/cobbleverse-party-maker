@@ -28,6 +28,12 @@ import megaZPatch from './patches/megaZ.patch.json' assert { type: 'json' };
 /** @type {PokemonEntry[] | null} */
 let _dataset = null;
 
+/**
+ * localStorage 캐시 키 — 데이터 구조가 바뀌면 버전 올릴 것.
+ * 버전 변경 시 사용자 브라우저의 이전 캐시는 자동 무효화된다.
+ */
+const CACHE_KEY = 'cobble_dataset_v3';
+
 /** 지역명 → 세대 매핑 */
 const REGION_TO_GEN = {
   kanto: 1, johto: 2, hoenn: 3, sinnoh: 4,
@@ -193,6 +199,16 @@ function normalizeEntry(pokemon, species) {
 export async function buildDataset({ onProgress } = {}) {
   if (_dataset) return _dataset;
 
+  // 0) localStorage 캐시 확인 — 있으면 API 호출 없이 즉시 반환
+  try {
+    const raw = localStorage.getItem(CACHE_KEY);
+    if (raw) {
+      _dataset = JSON.parse(raw);
+      onProgress?.(1, 1);
+      return _dataset;
+    }
+  } catch (_) { /* 파싱 오류 시 무시하고 API에서 재fetch */ }
+
   // 1) 전체 pokemon 목록 수집 (slug + url)
   const allEntries = await fetchAllPages('/pokemon?limit=100');
 
@@ -254,6 +270,12 @@ export async function buildDataset({ onProgress } = {}) {
   _dataset = [...normalized, ...newPatches].filter(
     (e) => e.formType !== 'gmax' && !BATTLE_ONLY_FORMS.has(e.name)
   );
+
+  // 6) localStorage에 캐시 저장 (다음 로드부터 API 호출 생략)
+  try {
+    localStorage.setItem(CACHE_KEY, JSON.stringify(_dataset));
+  } catch (_) { /* 용량 초과 등 실패 시 조용히 무시 */ }
+
   return _dataset;
 }
 
