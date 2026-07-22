@@ -59,40 +59,55 @@ export function generateParty() {
     return;
   }
 
-  // 2) 일반 풀 필터링 (메가 제외)
+  // 2) 일반 풀 (메가 제외, 전설 포함)
   const generalPool = dataset.filter(
     (p) => !p.isMega && predicates.every((fn) => fn(p))
   );
 
-  // 3) 메가 풀 (megaCategory 필터만 적용)
+  // 3) 메가 풀
   const megaPool = dataset.filter(
     (p) => p.isMega && predicates.every((fn) => fn(p))
   );
 
-  // 4) 핀된 멤버
+  // 4) 전설 풀 (전설+환상+준전설, 필터 적용)
+  const legendaryPool = generalPool.filter(
+    (p) => p.isLegendary || p.isMythical
+  );
+
+  // 5) 핀된 멤버
   const pinnedMembers = pins.filter(Boolean);
 
-  // 5) 메가 1슬롯 보장 여부
-  const guaranteeMega = filterValues.megaSlotGuarantee ?? false;
-  let megaSlot = null;
+  // 6) 메가 1마리 고정
+  const guaranteeMega      = filterValues.megaSlotGuarantee   ?? false;
+  const guaranteeLegendary = filterValues.legendaryGuarantee  ?? false;
+  let megaSlot      = null;
+  let legendarySlot = null;
 
   if (guaranteeMega && megaPool.length > 0 && neededCount > 0) {
     const megaWeights = computeWeights(pinnedMembers, megaPool);
     [megaSlot] = weightedSample(megaPool, megaWeights, 1);
   }
 
-  // 6) 나머지 슬롯을 일반 풀로 채움
-  const partySoFar = megaSlot ? [...pinnedMembers, megaSlot] : [...pinnedMembers];
-  const remainingCount = megaSlot ? neededCount - 1 : neededCount;
+  // 7) 전설 1슬롯 최소 보장 (메가 슬롯과 별개)
+  const reservedCount = (megaSlot ? 1 : 0);
+  if (guaranteeLegendary && legendaryPool.length > 0 && neededCount - reservedCount > 0) {
+    const legBase = megaSlot ? [...pinnedMembers, megaSlot] : [...pinnedMembers];
+    const legWeights = computeWeights(legBase, legendaryPool);
+    [legendarySlot] = weightedSample(legendaryPool, legWeights, 1);
+  }
 
-  const generalWeights = computeWeights(partySoFar, generalPool);
-  const generalPicks = weightedSample(generalPool, generalWeights, remainingCount);
+  // 8) 나머지 슬롯을 일반 풀로 채움 (이미 뽑힌 포켓몬 제외)
+  const pickedNames = new Set([megaSlot?.name, legendarySlot?.name].filter(Boolean));
+  const generalPoolRest = generalPool.filter((p) => !pickedNames.has(p.name));
+  const partySoFar = [...pinnedMembers, megaSlot, legendarySlot].filter(Boolean);
+  const remainingCount = neededCount - (megaSlot ? 1 : 0) - (legendarySlot ? 1 : 0);
 
-  // 7) 새 파티 배열 조립
+  const generalWeights = computeWeights(partySoFar, generalPoolRest);
+  const generalPicks = weightedSample(generalPoolRest, generalWeights, remainingCount);
+
+  // 9) 새 파티 배열 조립
   const newParty = [...pins];
-  const picksQueue = megaSlot
-    ? [megaSlot, ...generalPicks]
-    : [...generalPicks];
+  const picksQueue = [megaSlot, legendarySlot, ...generalPicks].filter(Boolean);
 
   unpinnedSlots.forEach((slotIdx) => {
     newParty[slotIdx] = picksQueue.shift() ?? null;

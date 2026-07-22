@@ -23,14 +23,23 @@ export function initFilterPanel(sidebarEl) {
   genBtn.addEventListener('click', generateParty);
   sidebarEl.appendChild(genBtn);
 
-  // ── 메가 1슬롯 보장 토글 ──
+  // ── 메가 1마리 고정 토글 ──
   const megaGuaranteeWrap = _buildToggle({
     id:    'megaSlotGuarantee',
-    label: '메가 1슬롯 보장',
+    label: '메가 1마리 고정',
     value: getState().filterValues.megaSlotGuarantee ?? false,
     onChange: (v) => setFilterValue('megaSlotGuarantee', v),
   });
   sidebarEl.appendChild(megaGuaranteeWrap);
+
+  // ── 전설/환상/준전설 1슬롯 최소 보장 토글 ──
+  const legendaryGuaranteeWrap = _buildToggle({
+    id:    'legendaryGuarantee',
+    label: '전설 1슬롯 보장',
+    value: getState().filterValues.legendaryGuarantee ?? false,
+    onChange: (v) => setFilterValue('legendaryGuarantee', v),
+  });
+  sidebarEl.appendChild(legendaryGuaranteeWrap);
 
   // ── 레지스트리 필터들 ──
   getAllFilters().forEach((filter) => {
