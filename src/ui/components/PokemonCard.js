@@ -157,9 +157,10 @@ export function createPokemonCard(pokemon, { isPinned, slotIndex, onPin, onRemov
       </div>
 
       <div class="card__info">
+        <span class="card__dex-no">${dexNo}</span>
         <p class="card__name">
-          <span class="card__name-text">${pokemon.displayName}${formNote ? ` <span class="card__form-tag">${formNote}</span>` : ''}</span>
-          <span class="card__dex-no">${dexNo}</span>
+          ${pokemon.displayName}
+          ${formNote ? `<span class="card__form-tag">${formNote}</span>` : ''}
         </p>
         <div class="card__types" role="list" aria-label="타입">
           ${pokemon.types.map((t) => `

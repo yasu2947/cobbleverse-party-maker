@@ -265,21 +265,12 @@
   overflow: hidden;
 }
 .card__name {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: var(--space-2);
-  line-height: 1.2;
-  min-width: 0;
-}
-.card__name-text {
   font-size: var(--font-size-lg);
   font-weight: 700;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  min-width: 0;
-  flex: 1;
+  line-height: 1.2;
 }
 .card__types {
   display: flex;
@@ -287,14 +278,15 @@
   gap: 4px;
 }
 
-/* 덱스 번호 — 이름 오른쪽 */
+/* 덱스 번호 — 이름 위 */
 .card__dex-no {
-  font-size: var(--font-size-xs);
+  display: block;
+  font-size: 10px;
   font-weight: 600;
   color: var(--text-muted);
-  letter-spacing: 0.3px;
-  white-space: nowrap;
-  flex-shrink: 0;
+  letter-spacing: 0.5px;
+  line-height: 1;
+  margin-bottom: 2px;
 }
 
 /* 특성 영역 */
