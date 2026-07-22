@@ -35,7 +35,7 @@ export function initFilterPanel(sidebarEl) {
   // ── 전설/환상/준전설 1슬롯 최소 보장 토글 ──
   const legendaryGuaranteeWrap = _buildToggle({
     id:    'legendaryGuarantee',
-    label: '전설 1슬롯 보장',
+    label: '전설 1마리 보장',
     value: getState().filterValues.legendaryGuarantee ?? false,
     onChange: (v) => setFilterValue('legendaryGuarantee', v),
   });
