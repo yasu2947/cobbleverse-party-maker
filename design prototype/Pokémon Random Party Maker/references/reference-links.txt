@@ -1,0 +1,6 @@
+참고 링크
+- 타입 상성표: https://pokemondb.net/type
+- 타입 커버리지 팀 분석 UI: https://poketata.com/ko/type-coverage?team=bulbasaur%2Ccharmander%2Csquirtle%2Csquirtle%2Cmetapod%2Cbeedrill
+- 코블버스(마인크래프트 모드) 포켓몬 스폰 정보: https://www.lumyverse.com/cobbleverse/all-pokemon-spawn-in-cobbleverse/
+
+각 스크린샷 파일명은 대화 중 참고한 순서대로 번호가 매겨져 있습니다.

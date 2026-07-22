@@ -1,0 +1,36 @@
+{
+  "entries": [
+    {
+      "id": 900001,
+      "name": "lucario-mega-z",
+      "displayName": "메가 루카리오 Z",
+      "types": ["fighting", "steel"],
+      "generation": 4,
+      "region": "sinnoh",
+      "isLegendary": false,
+      "isMythical": false,
+      "isMega": true,
+      "isBaby": false,
+      "evolutionStage": "final",
+      "formType": "mega-z",
+      "canZMove": true,
+      "spriteUrl": ""
+    },
+    {
+      "id": 900002,
+      "name": "absol-mega-z",
+      "displayName": "메가 앱솔 Z",
+      "types": ["dark"],
+      "generation": 3,
+      "region": "hoenn",
+      "isLegendary": false,
+      "isMythical": false,
+      "isMega": true,
+      "isBaby": false,
+      "evolutionStage": "final",
+      "formType": "mega-z",
+      "canZMove": true,
+      "spriteUrl": ""
+    }
+  ]
+}

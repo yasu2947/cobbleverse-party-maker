@@ -1,0 +1,96 @@
+/* ============================================================
+   디자인 토큰 — 다크 모드 (기본)
+   모든 색상은 OKLCH로 정의. 타입 색상은 18종 Pokémon 타입 기준.
+   ============================================================ */
+
+:root {
+  /* ── 기본 UI 색상 (다크) ── */
+  --bg-base:        oklch(14% 0.008 260);
+  --bg-surface:     oklch(18% 0.010 260);
+  --bg-elevated:    oklch(22% 0.012 260);
+  --bg-overlay:     oklch(10% 0.008 260 / 0.85);
+
+  --border-subtle:  oklch(30% 0.010 260);
+  --border-default: oklch(38% 0.012 260);
+
+  --text-primary:   oklch(94% 0.005 260);
+  --text-secondary: oklch(65% 0.008 260);
+  --text-muted:     oklch(45% 0.008 260);
+
+  /* ── 브랜드 강조 ── */
+  --accent-primary: oklch(72% 0.18 290);
+  --accent-hover:   oklch(78% 0.20 290);
+
+  /* ── 상태 색상 ── */
+  --color-pin:      oklch(82% 0.18 60);
+  --color-pin-glow: oklch(82% 0.18 60 / 0.35);
+  --color-danger:   oklch(62% 0.22 25);
+  --color-success:  oklch(72% 0.18 150);
+
+  /* ── 타이포그래피 ── */
+  --font-family: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-size-xs:   0.75rem;
+  --font-size-sm:   0.875rem;
+  --font-size-md:   1rem;
+  --font-size-lg:   1.125rem;
+  --font-size-xl:   1.25rem;
+  --font-size-2xl:  1.5rem;
+
+  /* ── 간격 ── */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+
+  /* ── 반경 ── */
+  --radius-sm:  6px;
+  --radius-md:  10px;
+  --radius-lg:  14px;
+  --radius-xl:  20px;
+  --radius-full: 9999px;
+
+  /* ── 그림자 ── */
+  --shadow-sm:  0 1px 3px oklch(0% 0 0 / 0.30);
+  --shadow-md:  0 4px 12px oklch(0% 0 0 / 0.40);
+  --shadow-lg:  0 8px 24px oklch(0% 0 0 / 0.50);
+
+  /* ── 전환 ── */
+  --transition-fast:   150ms ease;
+  --transition-normal: 250ms ease;
+  --transition-slow:   400ms ease;
+
+  /* ── 레이아웃 ── */
+  --sidebar-width:      240px;
+  --matchup-width:      520px;
+  --topbar-height:      56px;
+}
+
+
+/* ============================================================
+   18종 포켓몬 타입 색상
+   ============================================================ */
+:root {
+  --type-normal:   oklch(70% 0.05  90);
+  --type-fire:     oklch(65% 0.19  48);
+  --type-water:    oklch(60% 0.16 265);
+  --type-electric: oklch(84% 0.18  90);
+  --type-grass:    oklch(68% 0.18 142);
+  --type-ice:      oklch(82% 0.09 200);
+  --type-fighting: oklch(44% 0.17  25);
+  --type-poison:   oklch(46% 0.20 310);
+  --type-ground:   oklch(76% 0.13  82);
+  --type-flying:   oklch(68% 0.13 285);
+  --type-psychic:  oklch(62% 0.22   5);
+  --type-bug:      oklch(68% 0.18 120);
+  --type-rock:     oklch(62% 0.12  86);
+  --type-ghost:    oklch(42% 0.14 296);
+  --type-dragon:   oklch(48% 0.24 286);
+  --type-dark:     oklch(38% 0.06  52);
+  --type-steel:    oklch(74% 0.05 268);
+  --type-fairy:    oklch(74% 0.14   5);
+}

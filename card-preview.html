@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>카드 미리보기 v2</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: oklch(14% 0.008 260);
+  min-height: 100vh;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  padding: 48px;
+  font-family: system-ui, sans-serif;
+}
+
+/* ════════════════════════════════
+   포켓몬 카드 베이스
+════════════════════════════════ */
+.card {
+  position: relative;
+  width: 280px;
+  height: 130px;
+  border-radius: 14px;
+  border: 1.5px solid var(--type1, #555);
+  background: oklch(18% 0.010 260);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 14px;
+  overflow: hidden;
+  transition: box-shadow 0.2s, transform 0.15s;
+  cursor: pointer;
+}
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px var(--type1-glow, rgba(0,0,0,0.5));
+}
+
+/* ── 타입 그라디언트 레이어 ── */
+.card__bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 140% 140% at -10% -10%, var(--type1) 0%, transparent 60%),
+    radial-gradient(ellipse 100% 100% at 110% 110%, var(--type2, var(--type1)) 0%, transparent 50%);
+  opacity: 0.15;
+  pointer-events: none;
+}
+
+/* ── 포켓볼 워터마크 (순수 CSS) ── */
+.card__pokeball {
+  position: absolute;
+  right: -18px;
+  bottom: -18px;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  /* 상단: 타입 컬러, 하단: 흰색 */
+  background: linear-gradient(
+    180deg,
+    var(--type1) 0%,
+    var(--type1) 48%,
+    oklch(30% 0.010 260) 48%,
+    oklch(30% 0.010 260) 52%,
+    oklch(25% 0.010 260) 52%,
+    oklch(25% 0.010 260) 100%
+  );
+  border: 3px solid oklch(30% 0.010 260);
+  opacity: 0.18;
+  pointer-events: none;
+}
+/* 포켓볼 중앙 원 */
+.card__pokeball::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: oklch(22% 0.010 260);
+  border: 3px solid oklch(30% 0.010 260);
+  transform: translate(-50%, -50%);
+}
+
+/* ── 스프라이트 자리 ── */
+.card__sprite {
+  width: 96px;
+  height: 96px;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 52px;
+  filter: drop-shadow(0 2px 6px var(--type1-glow, rgba(0,0,0,0.4)));
+}
+
+/* ── 정보 영역 ── */
+.card__info {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  min-width: 0;
+}
+.card__name {
+  font-size: 15px;
+  font-weight: 800;
+  color: oklch(94% 0.005 260);
+  margin-bottom: 6px;
+  letter-spacing: -0.3px;
+}
+.card__badges {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+.badge {
+  padding: 2px 9px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #fff;
+  background: var(--badge-bg);
+  letter-spacing: 0.2px;
+}
+
+/* ════════════════════════════════
+   타입별 CSS 변수
+════════════════════════════════ */
+.t-fire    { --type1: oklch(65% 0.19 48);   --type2: oklch(68% 0.13 285); --type1-glow: oklch(65% 0.19 48 / 0.4);  }
+.t-water   { --type1: oklch(60% 0.16 265);  --type1-glow: oklch(60% 0.16 265 / 0.4); }
+.t-psychic { --type1: oklch(62% 0.22 5);    --type2: oklch(74% 0.14 5);   --type1-glow: oklch(62% 0.22 5 / 0.4);   }
+.t-fighting{ --type1: oklch(44% 0.17 25);   --type2: oklch(74% 0.05 268); --type1-glow: oklch(44% 0.17 25 / 0.4);  }
+.t-dragon  { --type1: oklch(48% 0.24 286);  --type2: oklch(42% 0.14 296); --type1-glow: oklch(48% 0.24 286 / 0.5); }
+.t-ghost   { --type1: oklch(42% 0.14 296);  --type2: oklch(46% 0.20 310); --type1-glow: oklch(42% 0.14 296 / 0.4); }
+.t-electric{ --type1: oklch(84% 0.18 90);   --type1-glow: oklch(84% 0.18 90 / 0.4);  }
+.t-grass   { --type1: oklch(68% 0.18 142);  --type1-glow: oklch(68% 0.18 142 / 0.4); }
+.t-ice     { --type1: oklch(82% 0.09 200);  --type1-glow: oklch(82% 0.09 200 / 0.4); }
+.t-dark    { --type1: oklch(38% 0.06 52);   --type2: oklch(62% 0.22 5);   --type1-glow: oklch(38% 0.06 52 / 0.5);  }
+
+/* 타입 배지 배경 */
+.b-fire     { --badge-bg: oklch(55% 0.22 40);  }
+.b-fly      { --badge-bg: oklch(58% 0.13 268);  }
+.b-water    { --badge-bg: oklch(50% 0.18 255);  }
+.b-psychic  { --badge-bg: oklch(52% 0.22 5);    }
+.b-fairy    { --badge-bg: oklch(64% 0.16 5);    }
+.b-fighting { --badge-bg: oklch(38% 0.17 25);   }
+.b-steel    { --badge-bg: oklch(60% 0.06 268);  }
+.b-dragon   { --badge-bg: oklch(42% 0.24 286);  }
+.b-ghost    { --badge-bg: oklch(36% 0.14 296);  }
+.b-poison   { --badge-bg: oklch(40% 0.20 310);  }
+.b-electric { --badge-bg: oklch(72% 0.20 85);   }
+.b-grass    { --badge-bg: oklch(55% 0.20 138);  }
+.b-ice      { --badge-bg: oklch(68% 0.10 200);  }
+.b-dark     { --badge-bg: oklch(32% 0.08 52);   }
+</style>
+</head>
+<body>
+
+<!-- 리자몽 (불꽃/비행) -->
+<div class="card t-fire">
+  <div class="card__bg"></div>
+  <div class="card__pokeball"></div>
+  <div class="card__sprite">🔥</div>
+  <div class="card__info">
+    <div class="card__name">리자몽</div>
+    <div class="card__badges">
+      <span class="badge b-fire">불꽃</span>
+      <span class="badge b-fly">비행</span>
+    </div>
+  </div>
+</div>
+
+<!-- 거북왕 (물) -->
+<div class="card t-water">
+  <div class="card__bg"></div>
+  <div class="card__pokeball"></div>
+  <div class="card__sprite">💧</div>
+  <div class="card__info">
+    <div class="card__name">거북왕</div>
+    <div class="card__badges">
+      <span class="badge b-water">물</span>
+    </div>
+  </div>
+</div>
+
+<!-- 가디안 (에스퍼/페어리) -->
+<div class="card t-psychic">
+  <div class="card__bg"></div>
+  <div class="card__pokeball"></div>
+  <div class="card__sprite">✨</div>
+  <div class="card__info">
+    <div class="card__name">가디안</div>
+    <div class="card__badges">
+      <span class="badge b-psychic">에스퍼</span>
+      <span class="badge b-fairy">페어리</span>
+    </div>
+  </div>
+</div>
+
+<!-- 루카리오 (격투/강철) -->
+<div class="card t-fighting">
+  <div class="card__bg"></div>
+  <div class="card__pokeball"></div>
+  <div class="card__sprite">⚔️</div>
+  <div class="card__info">
+    <div class="card__name">루카리오</div>
+    <div class="card__badges">
+      <span class="badge b-fighting">격투</span>
+      <span class="badge b-steel">강철</span>
+    </div>
+  </div>
+</div>
+
+<!-- 드래펄트 (드래곤/고스트) -->
+<div class="card t-dragon">
+  <div class="card__bg"></div>
+  <div class="card__pokeball"></div>
+  <div class="card__sprite">🐉</div>
+  <div class="card__info">
+    <div class="card__name">드래펄트</div>
+    <div class="card__badges">
+      <span class="badge b-dragon">드래곤</span>
+      <span class="badge b-ghost">고스트</span>
+    </div>
+  </div>
+</div>
+
+<!-- 팬텀 (고스트/독) -->
+<div class="card t-ghost">
+  <div class="card__bg"></div>
+  <div class="card__pokeball"></div>
+  <div class="card__sprite">👻</div>
+  <div class="card__info">
+    <div class="card__name">팬텀</div>
+    <div class="card__badges">
+      <span class="badge b-ghost">고스트</span>
+      <span class="badge b-poison">독</span>
+    </div>
+  </div>
+</div>
+
+<!-- 썬더 (전기) -->
+<div class="card t-electric">
+  <div class="card__bg"></div>
+  <div class="card__pokeball"></div>
+  <div class="card__sprite">⚡</div>
+  <div class="card__info">
+    <div class="card__name">썬더</div>
+    <div class="card__badges">
+      <span class="badge b-electric">전기</span>
+    </div>
+  </div>
+</div>
+
+<!-- 리아코 (풀) -->
+<div class="card t-grass">
+  <div class="card__bg"></div>
+  <div class="card__pokeball"></div>
+  <div class="card__sprite">🌿</div>
+  <div class="card__info">
+    <div class="card__name">리아코</div>
+    <div class="card__badges">
+      <span class="badge b-grass">풀</span>
+    </div>
+  </div>
+</div>
+
+<!-- 프리져 (얼음/비행) -->
+<div class="card t-ice">
+  <div class="card__bg"></div>
+  <div class="card__pokeball"></div>
+  <div class="card__sprite">❄️</div>
+  <div class="card__info">
+    <div class="card__name">프리져</div>
+    <div class="card__badges">
+      <span class="badge b-ice">얼음</span>
+      <span class="badge b-fly">비행</span>
+    </div>
+  </div>
+</div>
+
+<!-- 이어롭 (악/비행) -->
+<div class="card t-dark">
+  <div class="card__bg"></div>
+  <div class="card__pokeball"></div>
+  <div class="card__sprite">🌑</div>
+  <div class="card__info">
+    <div class="card__name">이어롭</div>
+    <div class="card__badges">
+      <span class="badge b-dark">악</span>
+      <span class="badge b-fly">비행</span>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
