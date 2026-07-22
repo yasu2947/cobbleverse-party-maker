@@ -186,10 +186,10 @@ export function createPokemonCard(pokemon, { isPinned, slotIndex, onPin, onRemov
         ${buildStatsHtml(pokemon.stats)}
       </div>
       <div class="card__acq-inline" aria-label="획득 정보">
+        ${rarity !== '—' ? `<span class="rarity-badge rarity-badge--${mod} rarity-badge--xs">${rarity}</span>` : ''}
         <span class="card__acq-biome biome-ko">${biome}</span>
         <span class="card__acq-biome biome-en">${biomeRaw}</span>
         <div class="card__acq-bottom">
-          ${rarity !== '—' ? `<span class="rarity-badge rarity-badge--${mod} rarity-badge--xs">${rarity}</span>` : ''}
           ${condition   ? `<span class="card__acq-cond biome-ko">${condition}</span>`   : ''}
           ${conditionEn ? `<span class="card__acq-cond biome-en">${conditionEn}</span>` : ''}
         </div>
